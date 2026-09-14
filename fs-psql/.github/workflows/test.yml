@@ -37,9 +37,9 @@ jobs:
         run: npm ci
         
       - name: Start application
-        run: npm start > app.log 2>&1 &
+        run: npm run start:test > app.log 2>&1 &
         env:
-          DATABASE_URL: postgresql://postgres:postgres@localhost:5432/test_db?sslmode=disable
+          TEST_DATABASE_URL: postgresql://postgres:postgres@localhost:5432/test_db?sslmode=disable
           PORT: 3001
           SECRET: test_secret
           
@@ -48,11 +48,7 @@ jobs:
         
       - name: Run tests
         run: npm test
-        env:
-          DATABASE_URL: postgresql://postgres:postgres@localhost:5432/test_db?sslmode=disable
-          PORT: 3001
-          SECRET: test_secret
-      
+
       - name: Print application logs on failure
         if: failure()
         run: cat app.log
