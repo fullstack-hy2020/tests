@@ -40,8 +40,8 @@ describe('Reading Lists API', () => {
     const response = await axios.post(`${baseUrl}/readinglists`, readingListEntry)
     
     assert.ok([200, 201].includes(response.status))
-    assert.strictEqual(response.data.blog_id, createdBlogId)
-    assert.strictEqual(response.data.user_id, testData.users[0].id)
+    assert.strictEqual(response.data.blogId, createdBlogId)
+    assert.strictEqual(response.data.userId, testData.users[0].id)
     assert.strictEqual(response.data.read, false)
   })
   
@@ -127,8 +127,8 @@ describe('Reading Lists API', () => {
     assert.ok(reading.title)
     assert.ok(reading.author)
     assert.ok(reading.url)
-    assert.ok(reading.reading_list)
-    assert.strictEqual(typeof reading.reading_list.read, 'boolean')
+    assert.ok(reading.readingList)
+    assert.strictEqual(typeof reading.readingList.read, 'boolean')
   })
   
   it('user can filter reading list by read status', async () => {
@@ -145,7 +145,7 @@ describe('Reading Lists API', () => {
   
   it('user can mark a blog as read with authentication', async () => {
     const userResponse = await axios.get(`${baseUrl}/users/${testData.users[0].id}`)
-    const readingListId = userResponse.data.readings[0].reading_list.id
+    const readingListId = userResponse.data.readings[0].readingList.id
     
     const response = await axios.put(
       `${baseUrl}/readinglists/${readingListId}`,
@@ -159,7 +159,7 @@ describe('Reading Lists API', () => {
   
   it('marking as read requires authentication', async () => {
     const userResponse = await axios.get(`${baseUrl}/users/${testData.users[0].id}`)
-    const readingListId = userResponse.data.readings[0].reading_list.id
+    const readingListId = userResponse.data.readings[0].readingList.id
     
     try {
       await axios.put(
@@ -174,7 +174,7 @@ describe('Reading Lists API', () => {
   
   it('user can only mark their own reading list entries', async () => {
     const userResponse = await axios.get(`${baseUrl}/users/${testData.users[0].id}`)
-    const readingListId = userResponse.data.readings[0].reading_list.id
+    const readingListId = userResponse.data.readings[0].readingList.id
     
     try {
       await axios.put(
@@ -388,7 +388,7 @@ describe('Integration: Reading Lists and Sessions', () => {
     const response = await axios.post(`${baseUrl}/readinglists`, readingListEntry)
     
     assert.ok([200, 201].includes(response.status))
-    assert.strictEqual(response.data.blog_id, integrationBlogId)
+    assert.strictEqual(response.data.blogId, integrationBlogId)
     integrationReadingListId = response.data.id
   })
   
